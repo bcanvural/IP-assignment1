@@ -16,29 +16,32 @@ void display(char *str) {
 int main() {
     int sem;
 
-    struct sembuf up =   {0, 1, 0};
-    struct sembuf down = {0, -1, 0};
+    struct sembuf p_up =   {0, 1, 0};
+    struct sembuf p_down = {0, -1, 0};
+    struct sembuf c_up =   {1, 1, 0};
+    struct sembuf c_down = {1, -1, 0};
 
-    sem = semget(IPC_PRIVATE, 1, 0600); /* Create semaphore */
-    
-    semop(sem, &up, 1);
+    sem = semget(IPC_PRIVATE, 2, 0600); /* Create 2 semaphores */
+
+    semop(sem, &p_up, 1);
 
     int i;
     if (fork()) { // parent
         for (i = 0; i < 10; i++) {
-            semop(sem, &down, 1);
+            semop(sem, &p_down, 1);
             display("ab");
-            semop(sem, &up, 1);
+            semop(sem, &c_up, 1);
         }
         wait(NULL);
-        semctl(sem, 0, IPC_RMID); // Destroy the mutex after child and parent 
-                                  // are both done.
+        // Destroy the semaphores after child and parent are both done.
+        semctl(sem, 0, IPC_RMID); 
+        semctl(sem, 1, IPC_RMID);
     }
     else { //child
         for (i = 0; i < 10; i++) {
-            semop(sem, &down, 1);
+            semop(sem, &c_down, 1);
             display("cd\n");
-            semop(sem, &up, 1);
+            semop(sem, &p_up, 1);
         }
     }
 

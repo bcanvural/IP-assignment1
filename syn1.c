@@ -31,7 +31,7 @@ int main() {
             semop(sem, &up, 1);
         }
         wait(NULL);
-        semctl(sem, 0, IPC_RMID); // Destroy the mutex after child and parent 
+        semctl(sem, 0, IPC_RMID); // Destroy the semaphore after child and parent 
                                   // are both done.
     }
     else { // child
