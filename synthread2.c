@@ -4,7 +4,9 @@
 #include <sys/types.h>
 #include <pthread.h>
 
+int display_ab = 1;
 pthread_mutex_t mutex;
+pthread_cond_t cv;
 
 void display(char *str) {
     char *tmp;
@@ -18,7 +20,12 @@ void *thread_function(void *param) {
     int i;
     for (i = 0; i < 10; i++) {
         pthread_mutex_lock(&mutex);
+        while (display_ab == 1) {
+            pthread_cond_wait(&cv, &mutex);
+        }
         display("cd\n");
+        display_ab = 1;
+        pthread_cond_signal(&cv);
         pthread_mutex_unlock(&mutex);
     }
 }
@@ -28,6 +35,7 @@ int main() {
     pthread_mutexattr_t mutex_attr;
     pthread_mutexattr_init(&mutex_attr);
     pthread_mutex_init(&mutex, &mutex_attr);
+    pthread_cond_init(&cv, NULL);
 
     pthread_t thread;
     pthread_attr_t attr;
@@ -39,12 +47,18 @@ int main() {
 
     for (i = 0; i < 10; i++) {
         pthread_mutex_lock(&mutex);
+        while (display_ab == 0) {
+            pthread_cond_wait(&cv, &mutex);
+        }
         display("ab");
+        display_ab = 0;
+        pthread_cond_signal(&cv);
         pthread_mutex_unlock(&mutex);
     }
     pthread_join(thread, NULL);
 
     pthread_mutex_destroy(&mutex);
+    pthread_cond_destroy(&cv);
 
     return 0;
 }

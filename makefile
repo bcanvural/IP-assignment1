@@ -1,7 +1,7 @@
 CC=gcc
 FLAGS= -lpthread
 
-all: mysh1 mysh2 mysh3 syn1 syn2 synthread1
+all: mysh1 mysh2 mysh3 syn1 syn2 synthread1 synthread2
 
 mysh1: mysh1.o
 	$(CC) -o mysh1 mysh1.o 
@@ -21,3 +21,6 @@ syn2: syn2.o
 
 synthread1: synthread1.o
 	$(CC) -o synthread1 synthread1.o $(FLAGS)
+
+synthread2: synthread2.o
+	$(CC) -o synthread2 synthread2.o $(FLAGS)
