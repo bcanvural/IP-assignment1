@@ -1,3 +1,11 @@
+/* Internet Programming 2015/2016
+ * 
+ * Assignment 1
+ * Authors:   Baris Can Vural,    Floris Turkenburg
+ * VUNetID:   bvl250,             ftg600
+ */
+
+
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/wait.h>

@@ -1,3 +1,12 @@
+/* Internet Programming 2015/2016
+ * 
+ * Assignment 1
+ * Authors:   Baris Can Vural,    Floris Turkenburg
+ * VUNetID:   bvl250,             ftg600
+ */
+
+
+
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -10,17 +19,19 @@ public class syn2 {
 
     public static void main(String args[]) {
 
-        mThread myThread = new mThread();
+        mThreadSyn2 myThread = new mThreadSyn2();
         myThread.start();
 
-        for (int i=0; i<10; i++){
+        for (int i=0; i<10; i++) {
             lock.lock();
-            try{
-                while(!display_ab) {c.await();}
-                Console.display("ab");
+            try {
+                while (!display_ab) {
+                    c.await();
+                }
+                ConsoleSyn2.display("ab");
                 display_ab = false;
                 c.signal();
-            } catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             } finally {
                 lock.unlock();

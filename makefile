@@ -1,7 +1,14 @@
 CC=gcc
 FLAGS= -lpthread
+JFLAGS = -g
+JC = javac
+ALL = mysh1 mysh2 mysh3 syn1 syn2 synthread1 synthread2
+
+
 
 all: mysh1 mysh2 mysh3 syn1 syn2 synthread1 synthread2
+
+build: all javaprograms
 
 mysh1: mysh1.o
 	$(CC) -o mysh1 mysh1.o 
@@ -24,3 +31,22 @@ synthread1: synthread1.o
 
 synthread2: synthread2.o
 	$(CC) -o synthread2 synthread2.o $(FLAGS)
+
+
+.SUFFIXES: .java .class
+.java.class:
+		$(JC) $(JFLAGS) $*.java
+
+CLASSES = \
+		syn1.java \
+		syn2.java \
+		ConsoleSyn1.java \
+		ConsoleSyn2.java \
+		mThreadSyn1.java \
+		mThreadSyn2.java 
+
+
+javaprograms: $(CLASSES:.java=.class)
+
+clean:
+	$(RM) *.class *.o $(ALL)

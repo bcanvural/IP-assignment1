@@ -1,3 +1,10 @@
+/* Internet Programming 2015/2016
+ * 
+ * Assignment 1
+ * Authors:   Baris Can Vural,    Floris Turkenburg
+ * VUNetID:   bvl250,             ftg600
+ */
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,7 +17,6 @@
 
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
     char cmd[100];
     pid_t pid;
     
@@ -18,7 +24,7 @@ int main(int argc, const char * argv[]) {
         char cwd[MAX_CWD_SIZE];
         // Print the current working directory
         getcwd(cwd, MAX_CWD_SIZE);
-        printf(BOLDGREEN "%s :> " RESET, cwd);
+        printf(BOLDGREEN "%s $ " RESET, cwd);
 
         // read command
         if (fgets(cmd, sizeof(cmd), stdin) == NULL) break;
