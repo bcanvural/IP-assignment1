@@ -1,28 +1,32 @@
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class syn2 {
-    public static void main(String args[]){
-        Integer m1 = new Integer(0);
-        Integer m2 = new Integer(0);
-        mThread myThread = new mThread(m1, m2);
+
+    public static Lock lock = new ReentrantLock();
+    public static Condition c = lock.newCondition();
+    public static boolean display_ab = true;
+
+    public static void main(String args[]) {
+
+        mThread myThread = new mThread();
         myThread.start();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Console.display("ab");
+
         for (int i=0; i<10; i++){
-            synchronized (m2) {
-                m2.notify();
-            }
-            try {
-                synchronized (m1) {
-                    m1.wait();
-                    Console.display("ab");
-                }
-            } catch (InterruptedException e) {
+            lock.lock();
+            try{
+                while(!display_ab) {c.await();}
+                Console.display("ab");
+                display_ab = false;
+                c.signal();
+            } catch(Exception e){
                 e.printStackTrace();
+            } finally {
+                lock.unlock();
             }
         }
     }
 }
+
+
