@@ -5,10 +5,10 @@ JC = javac
 ALL = mysh1 mysh2 mysh3 syn1 syn2 synthread1 synthread2
 
 
+build: all javaprograms
 
 all: mysh1 mysh2 mysh3 syn1 syn2 synthread1 synthread2
 
-build: all javaprograms
 
 mysh1: mysh1.o
 	$(CC) -o mysh1 mysh1.o 
