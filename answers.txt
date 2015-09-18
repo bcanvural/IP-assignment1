@@ -1,0 +1,6 @@
+Q-A: N+1 processes are created for a command which has N number of pipes.
+     E.g.   ls | wc      for this command 2 processes would be created.
+     Shell must wait until all of the children of the main process are terminated.
+
+Q-B: Shell with threads is not possible because exec() command destroys the whole process
+Q-C: No. Because the child executing the cd command will be destroyed. Main process won't know about the effect of the cd command.
